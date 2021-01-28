@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="805d7704-bb54-4c0d-b234-4a79a35ba124" >
+		<db:my-sql-connection host="mudb.learn.mulesoft.com" port="3306" user="mule" password="mule" database="training"/>
+	</db:config>
+	<flow name="implementationFlow" doc:id="ed6f1ef2-ac22-44b6-9dbf-a499c7a59582" >
+		<db:select doc:name="getAllFlights" doc:id="b7ab0756-7b24-446a-b5f2-216f2ac66c79" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM american]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="b3e64905-ac80-4607-8d68-e638f5679db7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+	payload
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
